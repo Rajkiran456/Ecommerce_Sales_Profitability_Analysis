@@ -1,0 +1,26 @@
+import pandas as pd
+import numpy as np
+
+# 1. Supply Chain & Inventory Dataset Creation
+data = {
+    'SKU_Code': ['SKU-101', 'SKU-102', 'SKU-103', 'SKU-104', 'SKU-105', 'SKU-106', 'SKU-107'],
+    'Current_Stock': [45, 12, 120, 5, 85, 8, 200],
+    'Daily_Demand': [10, 8, 15, 6, 12, 5, 25],
+    'Lead_Time_Days': [5, 7, 4, 10, 6, 8, 3],
+    'Unit_Cost_INR': [1200, 4500, 800, 3200, 1500, 6000, 500]
+}
+
+df_inventory = pd.DataFrame(data)
+
+# 2. Risk Metrics Calculation
+df_inventory['Reorder_Point'] = df_inventory['Daily_Demand'] * df_inventory['Lead_Time_Days']
+df_inventory['Stockout_Risk_Flag'] = np.where(df_inventory['Current_Stock'] < df_inventory['Reorder_Point'], 'HIGH RISK', 'SAFE')
+df_inventory['Shortage_Units'] = np.maximum(0, df_inventory['Reorder_Point'] - df_inventory['Current_Stock'])
+df_inventory['Replenishment_Cost_INR'] = df_inventory['Shortage_Units'] * df_inventory['Unit_Cost_INR']
+
+print("--- Supply Chain Inventory Risk Summary ---")
+print(df_inventory[['SKU_Code', 'Current_Stock', 'Reorder_Point', 'Stockout_Risk_Flag', 'Replenishment_Cost_INR']])
+
+# 3. Export CSV Report
+df_inventory.to_csv('supply_chain_inventory_report.csv', index=False)
+print("\nReport successfully saved as 'supply_chain_inventory_report.csv'")
