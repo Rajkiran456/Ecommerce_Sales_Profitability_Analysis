@@ -12,3 +12,6 @@ High sales revenue does not always guarantee high profit margins due to deep dis
 - **Regional Strategy:** Highlighted top-performing categories to reallocate marketing focus toward higher margin inventory.
 
 ## 📁 Repository Structure
+- **Sales_analysis.py:** Main Sales Performance Script
+- **ecommerce_sales_report.csv:** Exported Sales Analysis Data
+- **README.md:** Documentation
